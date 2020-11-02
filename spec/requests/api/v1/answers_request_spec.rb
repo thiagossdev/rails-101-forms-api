@@ -25,8 +25,8 @@ RSpec.describe "Api::V1::Answers", type: :request do
       end
 
       it "returned Answers have right datas" do
-        expect(json[0]).to eql(JSON.parse(@answer1.to_json))
-        expect(json[1]).to eql(JSON.parse(@answer2.to_json))
+        expect(json[0].except('questions_answers')).to eql(JSON.parse(@answer1.to_json))
+        expect(json[1].except('questions_answers')).to eql(JSON.parse(@answer2.to_json))
       end
     end
   end
@@ -74,10 +74,6 @@ RSpec.describe "Api::V1::Answers", type: :request do
   end
 
   describe "POST /api/v1/answers" do
-    context "With Invalid authentication headers" do
-      it_behaves_like :deny_without_authorization, :post, "/api/v1/answers"
-    end
-
     context "With valid authentication headers" do
       before do
         @user = create(:user)
@@ -128,7 +124,6 @@ RSpec.describe "Api::V1::Answers", type: :request do
     context "With Invalid authentication headers" do
       it_behaves_like :deny_without_authorization, :delete, "/api/v1/answers/questionary"
     end
-
 
     context "With valid authentication headers" do
       context "When answer exists" do
