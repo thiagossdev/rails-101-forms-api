@@ -22,10 +22,15 @@ gem 'redis', '~> 4.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'sidekiq'
+gem 'sidekiq', '~> 6.1', '>= 6.1.2'
 
+gem 'omniauth', '~> 1.9', '>= 1.9.1'
+gem 'devise_token_auth', '~> 1.1', '>= 1.1.4'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
+gem 'rack-attack', '~> 6.3', '>= 6.3.1'
+ 
+gem 'friendly_id', '~> 5.4'
 
 group :development, :test do
   gem 'dotenv-rails'
