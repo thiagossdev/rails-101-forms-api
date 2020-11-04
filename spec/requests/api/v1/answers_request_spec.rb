@@ -10,8 +10,11 @@ RSpec.describe "Api::V1::Answers", type: :request do
       before do
         @user = create(:user)
         @form = create(:form, user: @user)
+        @question = create(:question, form: @form)
         @answer1 = create(:answer, form: @form)
         @answer2 = create(:answer, form: @form)
+        @questions_answers_1 = create(:questions_answer, question: @question, answer: @answer1)
+        @questions_answers_2 = create(:questions_answer, question: @question, answer: @answer2)
 
         get "/api/v1/answers", params: {form_id: @form.id}, headers: header_with_authentication(@user)
       end
@@ -21,12 +24,13 @@ RSpec.describe "Api::V1::Answers", type: :request do
       end
 
       it "returns Form list with 2 answers" do
-        expect(json.count).to eql(2)
+        expect(json[0]['questions_answers'].count).to eql(2)
       end
 
       it "returned Answers have right datas" do
-        expect(json[0].except('questions_answers')).to eql(JSON.parse(@answer1.to_json))
-        expect(json[1].except('questions_answers')).to eql(JSON.parse(@answer2.to_json))
+        expect(json[0].except('questions_answers')).to eql(JSON.parse(@question.to_json))
+        expect(json[0]['questions_answers'][0]).to eql(JSON.parse(@questions_answers_1.to_json))
+        expect(json[0]['questions_answers'][1]).to eql(JSON.parse(@questions_answers_2.to_json))
       end
     end
   end
