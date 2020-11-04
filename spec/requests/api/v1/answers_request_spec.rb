@@ -83,8 +83,9 @@ RSpec.describe "Api::V1::Answers", type: :request do
 
       context "And with valid form id" do
         before do
-          @questions_answers_1_attributes = attributes_for(:questions_answer, question_id: @question.id)
-          @questions_answers_2_attributes = attributes_for(:questions_answer, question_id: @question.id)
+          @questions_answers_1_attributes = attributes_for(:questions_answer).merge({question: { id: @question.id }})
+          @questions_answers_2_attributes = attributes_for(:questions_answer).merge({question: { id: @question.id }})
+
           post "/api/v1/answers", params: {form_id: @form.id, questions_answers: [@questions_answers_1_attributes, @questions_answers_2_attributes]}, headers: header_with_authentication(@user)
         end
 
